@@ -1,0 +1,37 @@
+import { EventDispatcher, ModelRef, Project, File, Directory } from "../model";
+import { AppAction } from "../actions/AppActions";
+export declare class AppStore {
+    private project;
+    private output;
+    onLoadProject: EventDispatcher;
+    onDidChangeStatus: EventDispatcher;
+    onDidChangeProblems: EventDispatcher;
+    onChange: EventDispatcher;
+    onDirtyFileUsed: EventDispatcher;
+    onDidChangeBuffer: EventDispatcher;
+    onDidChangeData: EventDispatcher;
+    onDidChangeChildren: EventDispatcher;
+    onOutputChanged: EventDispatcher;
+    constructor();
+    readonly onRun: EventDispatcher;
+    readonly onBuild: EventDispatcher;
+    private initStore();
+    private loadProject(project);
+    private bindProject();
+    private addFileTo(file, parent);
+    private deleteFile(file);
+    private updateFileNameAndDescription(file, name, description);
+    getProject(): ModelRef<Project>;
+    getOutput(): ModelRef<File>;
+    getFileByName(name: string): ModelRef<File>;
+    getFileSource(file: ModelRef<File>): string;
+    getFileBuffer(file: ModelRef<File>): monaco.editor.IModel;
+    getParent(file: ModelRef<File>): ModelRef<Directory>;
+    getImmediateChild(directory: ModelRef<Directory>, name: string): ModelRef<File>;
+    getPath(directory: ModelRef<Directory>): string;
+    getStatus(): string;
+    private logLn(message, kind?);
+    handleActions(action: AppAction): void;
+}
+declare const appStore: AppStore;
+export default appStore;
